@@ -1,0 +1,7 @@
+En el HTML resultante de las preguntas, agregar las siguientes etiquetas dentro de las etiquetas <head></head>
+    <moduleName></moduleName>
+    <topicName></topicName>
+
+Posteriormente encerrar en una etiqueta <div></div>, agregando el atributo id="content", todo el contenido de la pregunta excepto la primer etiqueta <p> y las respuestas.
+
+Por último agregar el atributo id="answers" a la etiqueta <ol></ol> perteneciente a las respuestas.

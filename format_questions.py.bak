@@ -1,0 +1,62 @@
+import os
+import sys
+import shutil
+
+def findContent(path: str) -> list:
+   pathContents = os.listdir(path)
+   #print(path)
+   hasDirs = False
+   dirsList = []
+   contentFilesList = []
+
+   for file in pathContents:
+      if os.path.isdir(path + file):
+         dirsList.append(path + file + '/') 
+
+   hasDirs = len(dirsList) != 0
+
+   if hasDirs:
+      for dir in dirsList:
+         contentFilesList.extend(findContent(dir))
+   else:
+      removeDocxDocs(path, pathContents)
+      contentFilesList.extend(getContentsFileList(path, pathContents))
+
+   return contentFilesList
+
+
+def removeDocxDocs(path: str, dirFiles: list):
+   for file in dirFiles:
+      if os.path.basename(path + file).endswith('.docx'):
+         os.remove(path + file)
+
+def getContentsFileList(path: str, dirFiles) -> list:
+   contentsFileList = []
+
+   for file in dirFiles:
+      if os.path.basename(path + file).endswith('.html'):
+         contentsFileList.append(path + file)
+   
+   return contentsFileList
+
+def removeUnusedLines(filesList: list):
+   fileContent = []
+
+   for file in filesList:
+      with open(file, 'r+') as fp:
+         fileContent = fp.readlines()[7:-3]
+         fp.seek(0)
+         fp.truncate()
+         fp.writelines(fileContent)
+
+
+
+if not os.path.isdir('Original/Preguntas'):
+   sys.exit('Questions folder doesn\'t exists')
+
+if os.path.isdir('Output/Preguntas'):
+   shutil.rmtree('Output/Preguntas')
+
+shutil.copytree('Original/Preguntas', 'Output/Preguntas')
+contentFilesList = findContent('Output/Preguntas/')
+removeUnusedLines(contentFilesList)

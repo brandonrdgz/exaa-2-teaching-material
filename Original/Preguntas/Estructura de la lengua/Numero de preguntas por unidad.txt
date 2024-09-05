@@ -1,0 +1,3 @@
+4
+
+Elegir 3 por unidad y las 6 restantes elegir la unidad aleatoriamente y elegir 1 pregunta.
